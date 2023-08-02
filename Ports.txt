@@ -1,0 +1,5 @@
+https://localhost:7068/ https api
+http://localhost:5169/ http api
+
+https://localhost:7046/ https
+http://localhost:5088/ http
