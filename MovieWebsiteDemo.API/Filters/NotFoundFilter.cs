@@ -6,11 +6,11 @@ using MovieWebsiteDemo.Core.Services;
 
 namespace MovieWebsiteDemo.API.Filters
 {
-    public class NotFoundFilter<T> : IAsyncActionFilter where T : BaseEntity
+    public class NotFoundFilter<Entity, Dto> : IAsyncActionFilter where Entity : BaseEntity where Dto : class
     {
-        private readonly IGenericService<T> _service;
+        private readonly IGenericService<Entity, Dto> _service;
 
-        public NotFoundFilter(IGenericService<T> service)
+        public NotFoundFilter(IGenericService<Entity, Dto> service)
         {
             _service = service;
         }
@@ -32,7 +32,7 @@ namespace MovieWebsiteDemo.API.Filters
                 await next.Invoke();
                 return;
             }
-            context.Result = new NotFoundObjectResult(CustomResponseDto<NoContentDto>.Fail(404, $"{typeof(T).Name}({id}) not found"));
+            context.Result = new NotFoundObjectResult(CustomResponseDto<NoContentDto>.Fail(404, $"{typeof(Entity).Name}({id}) not found"));
 
         }
     }
