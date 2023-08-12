@@ -2,7 +2,7 @@
 
 namespace MovieWebsiteDemo.Core.Repositories
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface IUserRepository : IGenericRepository<UserApp>
     {
     }
 }

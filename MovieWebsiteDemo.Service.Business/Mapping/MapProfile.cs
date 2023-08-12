@@ -11,10 +11,11 @@ namespace MovieWebsiteDemo.Service.Business.Mapping
             CreateMap<Movie, MovieDto>().ReverseMap();
             CreateMap<Director, DirectorDto>().ReverseMap();
             CreateMap<Actor, ActorDto>().ReverseMap();
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<UserApp, UserDto>().ReverseMap();
             CreateMap<MovieUpdateDto, Movie>();
             CreateMap<Movie, MovieWithDirectorDto>();
             CreateMap<Director, DirectorWithMoviesDto>();
+            CreateMap<MovieCreateDto, Movie>();
         }
     }
 }

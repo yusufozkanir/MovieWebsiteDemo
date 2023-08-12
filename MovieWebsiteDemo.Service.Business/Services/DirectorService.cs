@@ -8,13 +8,12 @@ using MovieWebsiteDemo.Core.Services;
 namespace MovieWebsiteDemo.Service.Business.Services
 {
     //Ders 34
-    public class DirectorService : GenericService<Director>, IDirectorService
+    public class DirectorService : GenericService<Director, DirectorDto>, IDirectorService
     {
         private readonly IDirectorRepository _directorRepository;
-        private readonly IMapper _mapper;
-        public DirectorService(IGenericRepository<Director> repository, IUnitOfWork unitOfWork, IMapper mapper, IDirectorRepository directorRepository) : base(repository, unitOfWork)
+
+        public DirectorService(IGenericRepository<Director> repository, IUnitOfWork unitOfWork, IMapper mapper, IDirectorRepository directorRepository) : base(repository, unitOfWork, mapper)
         {
-            _mapper = mapper;
             _directorRepository = directorRepository;
         }
 

@@ -1,11 +1,9 @@
-﻿namespace MovieWebsiteDemo.Core.Models
-{
-    public class User : BaseEntity
-    {
-        public string UserName { get; set; }
-        public string UserMail { get; set; }
-        public int UserPassword { get; set; }
+﻿using Microsoft.AspNetCore.Identity;
 
+namespace MovieWebsiteDemo.Core.Models
+{
+    public class UserApp : IdentityUser
+    {
         public ICollection<UserMovie> Movies { get; set; }
 
         public List<WatchedMovie> WatchedMovies { get; set; }

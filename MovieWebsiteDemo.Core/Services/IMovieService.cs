@@ -4,11 +4,16 @@ using MovieWebsiteDemo.Core.Models;
 namespace MovieWebsiteDemo.Core.Services
 {
     //Ders 33
-    public interface IMovieService : IGenericService<Movie>
+    public interface IMovieService : IGenericService<Movie, MovieDto>
     {
         Task<CustomResponseDto<List<MovieWithDirectorDto>>> GetMovieWithDirector();
-        //Task<CustomResponseDto<bool>> MarkMovieAsWatched(int movieId);
+
         Task MarkAsWatchedAsync(int movieId);
+
+        Task<CustomResponseDto<NoContentDto>> UpdateAsync(MovieUpdateDto dto);
+
+        Task<CustomResponseDto<MovieDto>> AddAsync(MovieCreateDto dto);
+
 
     }
 }

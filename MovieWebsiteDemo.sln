@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieWebsiteDemo.Service.Bu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieWebsiteDemo.API", "MovieWebsiteDemo.API\MovieWebsiteDemo.API.csproj", "{6F01B2D8-0F61-421B-A9E1-09DE1873B99A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieWebsiteDemo.Web", "MovieWebsiteDemo.Web\MovieWebsiteDemo.Web.csproj", "{46A73F27-AFD7-43C0-9627-6698FD85B98A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01493EF4-BFD4-4002-B51E-60A29B052D0C}"
 	ProjectSection(SolutionItems) = preProject
 		Ports.txt = Ports.txt
@@ -40,10 +38,6 @@ Global
 		{6F01B2D8-0F61-421B-A9E1-09DE1873B99A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F01B2D8-0F61-421B-A9E1-09DE1873B99A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F01B2D8-0F61-421B-A9E1-09DE1873B99A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46A73F27-AFD7-43C0-9627-6698FD85B98A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46A73F27-AFD7-43C0-9627-6698FD85B98A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46A73F27-AFD7-43C0-9627-6698FD85B98A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46A73F27-AFD7-43C0-9627-6698FD85B98A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

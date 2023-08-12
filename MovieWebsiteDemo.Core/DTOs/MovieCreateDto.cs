@@ -1,6 +1,12 @@
-﻿namespace MovieWebsiteDemo.Core.DTOs
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MovieWebsiteDemo.Core.DTOs
 {
-    public class MovieUpdateDto
+    public class MovieCreateDto
     {
         public string MovieTitle { get; set; }
         public string Producer { get; set; }

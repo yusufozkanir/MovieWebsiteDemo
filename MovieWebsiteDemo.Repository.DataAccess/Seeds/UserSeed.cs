@@ -4,11 +4,11 @@ using MovieWebsiteDemo.Core.Models;
 
 namespace MovieWebsiteDemo.Repository.DataAccess.Seeds
 {
-    internal class UserSeed : IEntityTypeConfiguration<User>
+    internal class UserSeed : IEntityTypeConfiguration<UserApp>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<UserApp> builder)
         {
-            builder.HasData(new User { Id = 1, UserName = "Yusuf", UserMail = "yusuf@gmail.com", UserPassword = 123 });
+            
         }
     }
 }

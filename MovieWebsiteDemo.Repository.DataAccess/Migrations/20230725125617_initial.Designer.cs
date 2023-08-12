@@ -13,7 +13,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20230725125617_initial")]
-    partial class initial
+    partial class İnitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

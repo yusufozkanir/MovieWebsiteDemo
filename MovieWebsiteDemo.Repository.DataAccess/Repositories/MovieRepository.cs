@@ -23,7 +23,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Repositories
             if (film != null)
             {
                 film.IsWatched = true;
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
             }
         }
     }

@@ -9,26 +9,28 @@ namespace MovieWebsiteDemo.API.Controllers
     public class DirectorsController : CustomBaseController
     {
         private readonly IDirectorService _directorService;
-        private readonly IMapper _mapper;
 
-        public DirectorsController(IDirectorService directorService, IMapper mapper)
+        public DirectorsController(IDirectorService directorService)
         {
             _directorService = directorService;
-            _mapper = mapper;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var directors = await _directorService.GetAllAsync();
-            var directorsDto = _mapper.Map<List<DirectorDto>>(directors.ToList());
-            return CreateActionResult(CustomResponseDto<List<DirectorDto>>.Success(200, directorsDto));
         }
 
         [HttpGet("[action]")]
         public async Task<IActionResult> GetSingleDirectorByIdWithMovies(int directorId)
         {
             return CreateActionResult(await _directorService.GetSingleDirectorByIdWithMoviesAsync(directorId));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return CreateActionResult(await _directorService.GetAllAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Get(DirectorDto director)
+        {
+            return CreateActionResult(await _directorService.AddAsync(director));
         }
     }
 }

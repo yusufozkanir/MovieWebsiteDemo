@@ -36,7 +36,7 @@ namespace MovieWebsiteDemo.API.Controllers
         [HttpPost()]
         public async Task<IActionResult> SaveNewUser(UserDto userDto)
         {
-            var users = await _userService.AddAsync(_mapper.Map<User>(userDto));
+            var users = await _userService.AddAsync(_mapper.Map<UserApp>(userDto));
             var usersDto = _mapper.Map<UserDto>(users);
             return CreateActionResult(CustomResponseDto<UserDto>.Success(201, usersDto));
         }
@@ -44,7 +44,7 @@ namespace MovieWebsiteDemo.API.Controllers
         [HttpPut()]
         public async Task<IActionResult> Update(UserDto userDto)
         {
-            await _userService.UpdateAsync(_mapper.Map<User>(userDto));
+            await _userService.UpdateAsync(_mapper.Map<UserApp>(userDto));
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
     }

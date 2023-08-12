@@ -10,62 +10,69 @@ namespace MovieWebsiteDemo.API.Controllers
     //Ders 31
     public class MoviesController : CustomBaseController
     {
-        private readonly IMapper _mapper;
         private readonly IMovieService _service;
 
-        public MoviesController(IMapper mapper, IMovieService movieService)
+        public MoviesController(IMovieService movieService)
         {
-            _mapper = mapper;
             _service = movieService;
         }
 
         [HttpGet("[action]")]
         public async Task<IActionResult> GetMovieWithDirector()
         {
-            //Ders 33
             return CreateActionResult(await _service.GetMovieWithDirector());
         }
 
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var movies = await _service.GetAllAsync();
-            var moviesDto = _mapper.Map<List<MovieDto>>(movies.ToList());
-            return CreateActionResult(CustomResponseDto<List<MovieDto>>.Success(200, moviesDto));
+            return CreateActionResult(await _service.GetAllAsync());
         }
 
         [ServiceFilter(typeof(NotFoundFilter<Movie>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var movies = await _service.GetByIdAsync(id);
-            var moviesDto = _mapper.Map<MovieDto>(movies);
-            return CreateActionResult(CustomResponseDto<MovieDto>.Success(200, moviesDto));
+
+            return CreateActionResult(await _service.GetByIdAsync(id));
         }
 
         [HttpPost()]
-        public async Task<IActionResult> Save(MovieDto movieDto)
+        public async Task<IActionResult> Save(MovieCreateDto movieDto)
         {
-            var movies = await _service.AddAsync(_mapper.Map<Movie>(movieDto));
-            var moviesDto = _mapper.Map<MovieDto>(movies);
-            return CreateActionResult(CustomResponseDto<MovieDto>.Success(201, moviesDto));
+            return CreateActionResult(await _service.AddAsync(movieDto));
         }
 
         [HttpPut()]
         public async Task<IActionResult> Update(MovieUpdateDto movieDto)
         {
-            await _service.UpdateAsync(_mapper.Map<Movie>(movieDto));
-            return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
+            return CreateActionResult(await _service.UpdateAsync(movieDto));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remove(int id)
         {
-            var movies = await _service.GetByIdAsync(id);
-            await _service.RemoveAsync(movies);
-
-            return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
+            return CreateActionResult(await _service.RemoveAsync(id));
         }
+
+        [HttpPost("SaveAll")]
+        public async Task<IActionResult> SaveAll(List<MovieDto> movieDtos)
+        {
+            return CreateActionResult(await _service.AddRangeAsync(movieDtos));
+        }
+
+        [HttpDelete("RemoveAll")]
+        public async Task<IActionResult> RemoveAll(List<int> ids)
+        {
+            return CreateActionResult(await _service.RemoveRangeAsync(ids));
+        }
+
+        [HttpDelete("Any/{id}")]
+        public async Task<IActionResult> Any(int id)
+        {
+            return CreateActionResult(await _service.AnyAsync(x => x.Id == id));
+        }
+
 
         [HttpPost("{id}/watched")]
         public async Task<IActionResult> MarkAsWatched(int id)
