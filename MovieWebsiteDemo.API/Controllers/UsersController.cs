@@ -21,28 +21,28 @@ namespace MovieWebsiteDemo.API.Controllers
         public async Task<IActionResult> All()
         {
             var users = await _userService.GetAllAsync();
-            var usersDto = _mapper.Map<List<UserDto>>(users.ToList());
-            return CreateActionResult(CustomResponseDto<List<UserDto>>.Success(200, usersDto));
+            var usersDto = _mapper.Map<List<UserAppDto>>(users.ToList());
+            return CreateActionResult(CustomResponseDto<List<UserAppDto>>.Success(200, usersDto));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var users = await _userService.GetByIdAsync(id);
-            var usersDto = _mapper.Map<UserDto>(users);
-            return CreateActionResult(CustomResponseDto<UserDto>.Success(200, usersDto));
+            var usersDto = _mapper.Map<UserAppDto>(users);
+            return CreateActionResult(CustomResponseDto<UserAppDto>.Success(200, usersDto));
         }
 
         [HttpPost()]
-        public async Task<IActionResult> SaveNewUser(UserDto userDto)
+        public async Task<IActionResult> SaveNewUser(UserAppDto userDto)
         {
             var users = await _userService.AddAsync(_mapper.Map<UserApp>(userDto));
-            var usersDto = _mapper.Map<UserDto>(users);
-            return CreateActionResult(CustomResponseDto<UserDto>.Success(201, usersDto));
+            var usersDto = _mapper.Map<UserAppDto>(users);
+            return CreateActionResult(CustomResponseDto<UserAppDto>.Success(201, usersDto));
         }
 
         [HttpPut()]
-        public async Task<IActionResult> Update(UserDto userDto)
+        public async Task<IActionResult> Update(UserAppDto userDto)
         {
             await _userService.UpdateAsync(_mapper.Map<UserApp>(userDto));
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));

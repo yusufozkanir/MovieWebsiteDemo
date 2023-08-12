@@ -3,7 +3,7 @@ using MovieWebsiteDemo.Core.DTOs;
 
 namespace MovieWebsiteDemo.Service.Business.Validation
 {
-    public class UserDtoValidator : AbstractValidator<UserDto>
+    public class UserDtoValidator : AbstractValidator<UserAppDto>
     {
         public UserDtoValidator()
         {
