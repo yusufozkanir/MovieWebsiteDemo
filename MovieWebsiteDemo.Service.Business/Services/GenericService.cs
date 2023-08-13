@@ -13,9 +13,7 @@ namespace MovieWebsiteDemo.Service.Business.Services
 {
     public class GenericService<Entity, Dto> where Entity : BaseEntity where Dto : class
     {
-        //Bu servis business kodlarımın olacağı yer. Bu servis repo ile haberleşecek ki veritabanı ile ilgili işlemleri yapacak
-        //Ve aynı zamanda repo(dataaccess) katmanında savechange metodunu çağırmadım, savechange yapabilmem için yani veritabanına yansıtabilmem için UnitOfWork interfacesinide kullanıyorum.
-
+     
         private readonly IGenericRepository<Entity> _repository;
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
