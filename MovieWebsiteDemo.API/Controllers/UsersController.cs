@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Autofac.Core;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MovieWebsiteDemo.Core.DTOs;
 using MovieWebsiteDemo.Core.Models;
@@ -20,32 +21,26 @@ namespace MovieWebsiteDemo.API.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var users = await _userService.GetAllAsync();
-            var usersDto = _mapper.Map<List<UserAppDto>>(users.ToList());
-            return CreateActionResult(CustomResponseDto<List<UserAppDto>>.Success(200, usersDto));
+            return CreateActionResult(await _userService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var users = await _userService.GetByIdAsync(id);
-            var usersDto = _mapper.Map<UserAppDto>(users);
-            return CreateActionResult(CustomResponseDto<UserAppDto>.Success(200, usersDto));
+            return CreateActionResult(await _userService.GetByIdAsync(id));
         }
 
         [HttpPost()]
         public async Task<IActionResult> SaveNewUser(UserAppDto userDto)
         {
-            var users = await _userService.AddAsync(_mapper.Map<UserApp>(userDto));
-            var usersDto = _mapper.Map<UserAppDto>(users);
-            return CreateActionResult(CustomResponseDto<UserAppDto>.Success(201, usersDto));
+
+            return CreateActionResult(await _userService.AddAsync(userDto));
         }
 
         [HttpPut()]
         public async Task<IActionResult> Update(UserAppDto userDto)
         {
-            await _userService.UpdateAsync(_mapper.Map<UserApp>(userDto));
-            return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
+            return CreateActionResult(await _userService.UpdateAsync(userDto));
         }
     }
 }

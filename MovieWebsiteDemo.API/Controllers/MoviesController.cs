@@ -29,7 +29,7 @@ namespace MovieWebsiteDemo.API.Controllers
             return CreateActionResult(await _service.GetAllAsync());
         }
 
-        [ServiceFilter(typeof(NotFoundFilter<Movie>))]
+        //[ServiceFilter(typeof(NotFoundFilter<Movie>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
