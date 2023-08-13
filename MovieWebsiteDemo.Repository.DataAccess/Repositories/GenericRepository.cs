@@ -6,8 +6,8 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly AppDbContext _context; //Veritabanında işlem yapmak için
-        private readonly DbSet<T> _dbSet; //Veritabanımda ki tabloma karşılık geliyor
+        protected readonly AppDbContext _context;
+        private readonly DbSet<T> _dbSet;
 
         public GenericRepository(AppDbContext context)
         {
