@@ -23,7 +23,7 @@ namespace MovieWebsiteDemo.API.Middlewares
                     };
                     context.Response.StatusCode = statusCode;
 
-                    var response = CustomResponseDto<NoContentDto>.Fail(statusCode, exceptionFuture.Error.Message);
+                    var response = CustomResponseDto<NoContentDto>.Fail(statusCode, exceptionFuture.Error.Message, false);
 
                     await context.Response.WriteAsync(JsonSerializer.Serialize(response));
 

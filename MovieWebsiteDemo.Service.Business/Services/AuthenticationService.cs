@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Azure;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MovieWebsiteDemo.Core.Configurations;
 using MovieWebsiteDemo.Core.DTOs;
@@ -26,9 +28,29 @@ namespace MovieWebsiteDemo.Service.Business.Services
             _userRefreshTokenService = userRefreshTokenService;
         }
 
-        public Task<CustomResponseDto<TokenDto>> CreateTokenAsync(LoginDto loginDto)
+        public async Task<CustomResponseDto<TokenDto>> CreateTokenAsync(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            if (loginDto == null) throw new ArgumentNullException(nameof(loginDto));
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user == null) return CustomResponseDto<TokenDto>.Fail(400, "Email veya password yanlış",true);
+            if (!await _userManager.CheckPasswordAsync(user, loginDto.Password))
+            {
+                return CustomResponseDto<TokenDto>.Fail(400, "Email veya password yanlış", true);
+            }
+
+            var token = _tokenService.CreateToken(user);
+            var userRefreshToken = await _userRefreshTokenService.Where(x => x.UserId == user.Id).SingleOrDefaultAsync();
+            if (userRefreshToken != null)
+            {
+                await _userRefreshTokenService.AddAsync(new UserRefreshToken { UserId = user.Id, Code = token.RefreshToken, Expiration = token.RefreshTokenExpiration });
+            }
+            else
+            {
+                userRefreshToken.Code = token.RefreshToken;
+                userRefreshToken.Expiration = token.RefreshTokenExpiration;
+            }
+            await _unitOfWork.CommitAsync();
+            return CustomResponseDto<TokenDto>.Success(200, token);
         }
 
         public CustomResponseDto<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto)
