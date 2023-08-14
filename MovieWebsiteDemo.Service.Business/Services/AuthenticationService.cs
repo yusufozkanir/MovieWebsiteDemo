@@ -64,9 +64,27 @@ namespace MovieWebsiteDemo.Service.Business.Services
             return CustomResponseDto<ClientTokenDto>.Success(200, token);
         }
 
-        public Task<CustomResponseDto<TokenDto>> CreateTokenByRefreshToken(string refreshToken)
+        public async Task<CustomResponseDto<TokenDto>> CreateTokenByRefreshToken(string refreshToken)
         {
-            throw new NotImplementedException();
+            var existRefreshToken = await _userRefreshTokenService.Where(x => x.Code == refreshToken).SingleOrDefaultAsync();
+            if (existRefreshToken == null)
+            {
+                return CustomResponseDto<TokenDto>.Fail(404, "Refresh token not found", true);
+            }
+
+            var user = await _userManager.FindByIdAsync(existRefreshToken.UserId);
+            if (user == null)
+            {
+                return CustomResponseDto<TokenDto>.Fail(404,"User Id not found", true);
+            }
+
+            var tokenDto = _tokenService.CreateToken(user);
+
+            existRefreshToken.Code = tokenDto.RefreshToken;
+            existRefreshToken.Expiration = tokenDto.RefreshTokenExpiration;
+
+            await _unitOfWork.CommitAsync();
+            return CustomResponseDto<TokenDto>.Success(200, tokenDto);
         }
 
         public Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken(string refreshToken)
