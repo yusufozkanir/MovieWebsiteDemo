@@ -87,9 +87,22 @@ namespace MovieWebsiteDemo.Service.Business.Services
             return CustomResponseDto<TokenDto>.Success(200, tokenDto);
         }
 
-        public Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken(string refreshToken)
+        public async Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken(string refreshToken)
         {
-            throw new NotImplementedException();
+            var existRefreshToken = await _userRefreshTokenService.Where(x => x.Code == refreshToken).SingleOrDefaultAsync();
+
+            if (existRefreshToken == null)
+            {
+                return CustomResponseDto<NoContentDto>.Fail(404,"Refresh token not found", true);
+
+            }
+
+            _userRefreshTokenService.Remove(existRefreshToken);
+
+            await _unitOfWork.CommitAsync();
+
+            return CustomResponseDto<NoContentDto>.Success(200);
         }
+    }
     }
 }
