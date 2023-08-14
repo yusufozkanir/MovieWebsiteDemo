@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieWebsiteDemo.API.Filter;
@@ -8,6 +9,7 @@ using MovieWebsiteDemo.API.Filters;
 using MovieWebsiteDemo.API.Middlewares;
 using MovieWebsiteDemo.API.Modules;
 using MovieWebsiteDemo.Core.Configurations;
+using MovieWebsiteDemo.Core.Models;
 using MovieWebsiteDemo.Repository.DataAccess;
 using MovieWebsiteDemo.Service.Business.Mapping;
 using MovieWebsiteDemo.Service.Business.Validation;
@@ -47,6 +49,13 @@ builder.Services.AddDbContext<AppDbContext>(x =>
         option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
     });
 });
+
+builder.Services.AddIdentity<UserApp,IdentityRole>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+    options.Password.RequireNonAlphanumeric = false;
+}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new RepoServiceModule()));

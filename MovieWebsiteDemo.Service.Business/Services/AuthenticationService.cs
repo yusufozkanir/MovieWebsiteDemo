@@ -32,7 +32,7 @@ namespace MovieWebsiteDemo.Service.Business.Services
         {
             if (loginDto == null) throw new ArgumentNullException(nameof(loginDto));
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
-            if (user == null) return CustomResponseDto<TokenDto>.Fail(400, "Email veya password yanlış",true);
+            if (user == null) return CustomResponseDto<TokenDto>.Fail(400, "Email veya password yanlış", true);
             if (!await _userManager.CheckPasswordAsync(user, loginDto.Password))
             {
                 return CustomResponseDto<TokenDto>.Fail(400, "Email veya password yanlış", true);
@@ -75,7 +75,7 @@ namespace MovieWebsiteDemo.Service.Business.Services
             var user = await _userManager.FindByIdAsync(existRefreshToken.UserId);
             if (user == null)
             {
-                return CustomResponseDto<TokenDto>.Fail(404,"User Id not found", true);
+                return CustomResponseDto<TokenDto>.Fail(404, "User Id not found", true);
             }
 
             var tokenDto = _tokenService.CreateToken(user);
@@ -93,7 +93,7 @@ namespace MovieWebsiteDemo.Service.Business.Services
 
             if (existRefreshToken == null)
             {
-                return CustomResponseDto<NoContentDto>.Fail(404,"Refresh token not found", true);
+                return CustomResponseDto<NoContentDto>.Fail(404, "Refresh token not found", true);
 
             }
 
@@ -104,5 +104,5 @@ namespace MovieWebsiteDemo.Service.Business.Services
             return CustomResponseDto<NoContentDto>.Success(200);
         }
     }
-    }
 }
+
