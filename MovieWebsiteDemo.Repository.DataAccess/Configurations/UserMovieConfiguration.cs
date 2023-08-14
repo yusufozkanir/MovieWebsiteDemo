@@ -11,12 +11,12 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Configurations
 
             //UserMovie İlişkisi
             //modelBuilder.Entity<UserMovie>()
-            builder.HasKey(um => new { um.UserId, um.MovieId });
+            builder.HasKey(um => new { um.Id, um.MovieId });
 
             //modelBuilder.Entity<UserMovie>()
             builder.HasOne(um => um.User)
             .WithMany(u => u.Movies)
-            .HasForeignKey(um => um.UserId)
+            .HasForeignKey(um => um.Id)
             .OnDelete(DeleteBehavior.Restrict);
 
             //modelBuilder.Entity<UserMovie>()

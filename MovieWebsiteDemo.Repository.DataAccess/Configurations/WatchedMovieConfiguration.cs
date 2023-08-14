@@ -14,7 +14,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Configurations
             //modelBuilder.Entity<WatchedFilm>()
             builder.HasOne(wf => wf.User)
                 .WithMany(u => u.WatchedMovies)
-                .HasForeignKey(wf => wf.UserId);
+                .HasForeignKey(wf => wf.Id);
 
             //modelBuilder.Entity<WatchedFilm>()
             builder.HasOne(wf => wf.Movie)

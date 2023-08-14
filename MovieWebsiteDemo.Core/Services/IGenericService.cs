@@ -12,11 +12,8 @@ namespace MovieWebsiteDemo.Core.Services
         Task<CustomResponseDto<bool>> AnyAsync(Expression<Func<Entity, bool>> expression);
         Task<CustomResponseDto<Dto>> AddAsync(Dto dto);
         Task<CustomResponseDto<IEnumerable<Dto>>> AddRangeAsync(IEnumerable<Dto> dtos);
-
         Task<CustomResponseDto<NoContentDto>> UpdateAsync(Dto dto);
-
         Task<CustomResponseDto<NoContentDto>> RemoveAsync(int id);
-
         Task<CustomResponseDto<NoContentDto>> RemoveRangeAsync(IEnumerable<int> ids);
     }
 }

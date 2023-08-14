@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace MovieWebsiteDemo.Service.Business.Services
 {
-    public class GenericService<Entity, Dto> where Entity : BaseEntity where Dto : class
+    public class GenericService<Entity, Dto> : IGenericService<Entity, Dto> where Entity : BaseEntity where Dto : class
     {
      
         private readonly IGenericRepository<Entity> _repository;

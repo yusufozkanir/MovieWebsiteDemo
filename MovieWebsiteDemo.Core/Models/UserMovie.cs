@@ -2,7 +2,7 @@
 {
     public class UserMovie
     {
-        public int UserId { get; set; }
+        public string Id { get; set; }
         public UserApp User { get; set; }
 
         public int MovieId { get; set; }

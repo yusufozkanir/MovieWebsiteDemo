@@ -2,7 +2,7 @@
 {
     public class WatchedMovie : BaseEntity
     {
-        public int UserId { get; set; }
+        public string Id { get; set; }
         public int MovieId { get; set; }
         public DateTime WatchedDate { get; set; }
 
