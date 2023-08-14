@@ -8,7 +8,7 @@ namespace MovieWebsiteDemo.Core.DTOs
         public int StatusCode { get; private set; }
 
         [JsonIgnore]
-        //public bool IsSuccessful { get; private set; }
+        public bool IsSuccessful { get; private set; }
         public ErrorDto Error { get; private set; }
 
         public static CustomResponseDto<T> Success(int statusCode,T data)

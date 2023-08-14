@@ -55,7 +55,13 @@ namespace MovieWebsiteDemo.Service.Business.Services
 
         public CustomResponseDto<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto)
         {
-            throw new NotImplementedException();
+            var client = _clients.SingleOrDefault(x => x.Id == clientLoginDto.ClientId && x.Secret == clientLoginDto.ClientSecret);
+            if (client == null)
+            {
+                return CustomResponseDto<ClientTokenDto>.Fail(404, "ClientId or Secret not found", true);
+            }
+            var token = _tokenService.CreateTokenByClient(client);
+            return CustomResponseDto<ClientTokenDto>.Success(200, token);
         }
 
         public Task<CustomResponseDto<TokenDto>> CreateTokenByRefreshToken(string refreshToken)
