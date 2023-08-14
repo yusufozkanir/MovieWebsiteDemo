@@ -6,7 +6,9 @@ using MovieWebsiteDemo.Core.Models;
 using MovieWebsiteDemo.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +32,22 @@ namespace MovieWebsiteDemo.Service.Business.Services
             using var rnd = RandomNumberGenerator.Create();
             rnd.GetBytes(numberByte);
             return Convert.ToBase64String(numberByte);
+        }
+
+        private IEnumerable<Claim> GetClaims(UserApp userApp, List<string> audiences)
+        {
+            var userList = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier,userApp.Id),
+                new Claim(JwtRegisteredClaimNames.Email,userApp.Email),
+                new Claim(ClaimTypes.Name,userApp.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+
+            };
+
+            userList.AddRange(audiences.Select(x => new Claim(JwtRegisteredClaimNames.Aud, x)));
+
+            return userList;
         }
 
         public TokenDto CreateToken(UserApp userApp)
