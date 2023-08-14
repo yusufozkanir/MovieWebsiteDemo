@@ -7,6 +7,7 @@ using MovieWebsiteDemo.API.Filter;
 using MovieWebsiteDemo.API.Filters;
 using MovieWebsiteDemo.API.Middlewares;
 using MovieWebsiteDemo.API.Modules;
+using MovieWebsiteDemo.Core.Configurations;
 using MovieWebsiteDemo.Repository.DataAccess;
 using MovieWebsiteDemo.Service.Business.Mapping;
 using MovieWebsiteDemo.Service.Business.Validation;
@@ -23,6 +24,8 @@ builder.Services.AddSwaggerGen();
 
 //builder.Services.AddScoped(typeof(NotFoundFilter<>));
 builder.Services.AddAutoMapper(typeof(MapProfile));
+
+builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
 
 
 builder.Services.AddControllers(options => options.Filters.Add(new ValidateFilterAttribute())).AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<MovieDtoValidator>());
