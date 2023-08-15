@@ -7,11 +7,11 @@ namespace MovieWebsiteDemo.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AuthController : CustomBaseController
+    public class AuthsController : CustomBaseController
     {
         private readonly IAuthenticationService _authenticationService;
 
-        public AuthController(IAuthenticationService authenticationService)
+        public AuthsController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
