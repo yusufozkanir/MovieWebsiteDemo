@@ -7,7 +7,6 @@ namespace MovieWebsiteDemo.API.Controllers
     [ApiController]
     public class CustomBaseController : ControllerBase
     {
-        //Ders 31
         [NonAction]
         public IActionResult CreateActionResult<T>(CustomResponseDto<T> response)
         {

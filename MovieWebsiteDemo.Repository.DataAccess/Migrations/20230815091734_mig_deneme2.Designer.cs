@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieWebsiteDemo.Repository.DataAccess;
 
@@ -11,9 +12,11 @@ using MovieWebsiteDemo.Repository.DataAccess;
 namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230815091734_mig_deneme2")]
+    partial class mig_deneme2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,7 +183,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors", (string)null);
+                    b.ToTable("Actors");
                 });
 
             modelBuilder.Entity("MovieWebsiteDemo.Core.Models.Director", b =>
@@ -205,7 +208,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Directors", (string)null);
+                    b.ToTable("Directors");
 
                     b.HasData(
                         new
@@ -263,7 +266,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 
                     b.HasIndex("DirectorId");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
 
                     b.HasData(
                         new
@@ -290,7 +293,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 
                     b.HasIndex("ActorId");
 
-                    b.ToTable("MovieActor", (string)null);
+                    b.ToTable("MovieActor");
                 });
 
             modelBuilder.Entity("MovieWebsiteDemo.Core.Models.UserApp", b =>
@@ -370,7 +373,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("UserMovie", (string)null);
+                    b.ToTable("UserMovie");
                 });
 
             modelBuilder.Entity("MovieWebsiteDemo.Core.Models.UserRefreshToken", b =>
@@ -388,7 +391,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserRefreshTokens", (string)null);
+                    b.ToTable("UserRefreshTokens");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

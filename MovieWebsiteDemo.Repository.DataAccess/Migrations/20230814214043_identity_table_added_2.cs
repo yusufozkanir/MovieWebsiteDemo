@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class added_identity_table : Migration
+    public partial class identity_table_added_2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
