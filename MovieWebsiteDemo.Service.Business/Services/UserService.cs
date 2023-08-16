@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal.Mappers;
 using Azure;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MovieWebsiteDemo.Core.DTOs;
 using MovieWebsiteDemo.Core.Models;
@@ -16,11 +18,14 @@ namespace MovieWebsiteDemo.Service.Business.Services
     public class UserService : IUserService
     {
         private readonly UserManager<UserApp> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<UserApp> userManager)
+        public UserService(UserManager<UserApp> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
+            _mapper = mapper;
         }
 
         public async Task<CustomResponseDto<UserAppDto>> CreateUserAsync(CreateUserDto createUserDto)
@@ -37,6 +42,23 @@ namespace MovieWebsiteDemo.Service.Business.Services
             }
 
             return CustomResponseDto<UserAppDto>.Success(200, _mapper.Map<UserAppDto>(user));
+        }
+
+        public async Task<CustomResponseDto<NoContentDto>> CreateUserRoles(string userName)
+        {
+            if (!await _roleManager.RoleExistsAsync("admin"))
+            {
+                await _roleManager.CreateAsync(new() { Name = "admin" });
+                await _roleManager.CreateAsync(new() { Name = "manager" });
+                await _roleManager.CreateAsync(new() { Name = "customer" });
+            }
+
+            var user = await _userManager.FindByNameAsync(userName);
+            _userManager.AddToRoleAsync(user, "admin");
+            _userManager.AddToRoleAsync(user, "manager");
+            _userManager.AddToRoleAsync(user, "customer");
+
+            return CustomResponseDto<NoContentDto>.Success(StatusCodes.Status201Created);
         }
 
         public async Task<CustomResponseDto<UserAppDto>> GetUserByNameAsync(string userName)

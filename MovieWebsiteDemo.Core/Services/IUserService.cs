@@ -7,5 +7,7 @@ namespace MovieWebsiteDemo.Core.Services
     {
         Task<CustomResponseDto<UserAppDto>> CreateUserAsync(CreateUserDto createUserDto);
         Task<CustomResponseDto<UserAppDto>> GetUserByNameAsync(string userName);
+        Task<CustomResponseDto<NoContentDto>> CreateUserRoles(string userName);
+
     }
 }
