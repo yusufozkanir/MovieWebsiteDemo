@@ -5,14 +5,9 @@ using MovieWebsiteDemo.Core.Configurations;
 using MovieWebsiteDemo.Core.DTOs;
 using MovieWebsiteDemo.Core.Models;
 using MovieWebsiteDemo.Core.Services;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieWebsiteDemo.Service.Business.Services
 {
@@ -35,7 +30,7 @@ namespace MovieWebsiteDemo.Service.Business.Services
             return Convert.ToBase64String(numberByte);
         }
 
-        private async Task<IEnumerable<Claim>> GetClaims(UserApp userApp, List<string> audiences)
+        private async Task<IEnumerable<Claim>> GetClaims(UserApp userApp, List<String> audiences)
         {
             var userRoles = await _userManager.GetRolesAsync(userApp);
             var userList = new List<Claim>
@@ -66,6 +61,7 @@ namespace MovieWebsiteDemo.Service.Business.Services
             var accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOption.AccessTokenExpiration);
             var refreshTokenExpiration = DateTime.Now.AddMinutes(_tokenOption.RefreshTokenExpiration);
             var securityKey = SignService.GetSymmetricSecurityKey(_tokenOption.SecurityKey);
+           
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
                 issuer: _tokenOption.Issuer,

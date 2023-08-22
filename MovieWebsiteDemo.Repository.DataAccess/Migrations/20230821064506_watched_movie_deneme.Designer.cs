@@ -12,8 +12,8 @@ using MovieWebsiteDemo.Repository.DataAccess;
 namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230815091734_mig_deneme2")]
-    partial class mig_deneme2
+    [Migration("20230821064506_watched_movie_deneme")]
+    partial class watched_movie_deneme
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -394,6 +394,24 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
                     b.ToTable("UserRefreshTokens");
                 });
 
+            modelBuilder.Entity("MovieWebsiteDemo.Core.Models.WatchedMovie", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("WatchedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id", "MovieId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("WatchedMovie");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -494,6 +512,25 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MovieWebsiteDemo.Core.Models.WatchedMovie", b =>
+                {
+                    b.HasOne("MovieWebsiteDemo.Core.Models.UserApp", "User")
+                        .WithMany("WatchedMovies")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MovieWebsiteDemo.Core.Models.Movie", "Movie")
+                        .WithMany("WatchedMovies")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MovieWebsiteDemo.Core.Models.Actor", b =>
                 {
                     b.Navigation("MovieActors");
@@ -509,11 +546,15 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
                     b.Navigation("MovieActors");
 
                     b.Navigation("Users");
+
+                    b.Navigation("WatchedMovies");
                 });
 
             modelBuilder.Entity("MovieWebsiteDemo.Core.Models.UserApp", b =>
                 {
                     b.Navigation("Movies");
+
+                    b.Navigation("WatchedMovies");
                 });
 #pragma warning restore 612, 618
         }

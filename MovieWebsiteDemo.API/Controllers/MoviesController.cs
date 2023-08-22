@@ -77,8 +77,7 @@ namespace MovieWebsiteDemo.API.Controllers
         [HttpPost("{id}/watched")]
         public async Task<IActionResult> MarkAsWatched(int id)
         {
-            await _service.MarkAsWatchedAsync(id);
-            return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
+            return CreateActionResult(await _service.MarkAsWatchedAsync(id));
         }
     }
 }

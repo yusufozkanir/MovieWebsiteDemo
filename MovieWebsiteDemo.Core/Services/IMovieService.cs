@@ -8,11 +8,12 @@ namespace MovieWebsiteDemo.Core.Services
     {
         Task<CustomResponseDto<List<MovieWithDirectorDto>>> GetMovieWithDirector();
 
-        Task MarkAsWatchedAsync(int movieId);
-
         Task<CustomResponseDto<NoContentDto>> UpdateAsync(MovieUpdateDto dto);
 
         Task<CustomResponseDto<MovieDto>> AddAsync(MovieCreateDto dto);
+
+        Task <CustomResponseDto<NoContentDto>> MarkAsWatchedAsync(int movieId);
+
 
 
     }

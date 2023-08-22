@@ -1,6 +1,6 @@
 ﻿namespace MovieWebsiteDemo.Core.Models
 {
-    public class WatchedMovie : BaseEntity
+    public class WatchedMovie
     {
         public string Id { get; set; }
         public int MovieId { get; set; }

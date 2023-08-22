@@ -6,58 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class identity_table_added_2 : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_UserMovie_Users_UserId",
-                table: "UserMovie");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_WatchedMovie_Users_UserId",
-                table: "WatchedMovie");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropIndex(
-                name: "IX_WatchedMovie_UserId",
-                table: "WatchedMovie");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_UserMovie",
-                table: "UserMovie");
-
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "WatchedMovie");
-
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "UserMovie");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Id",
-                table: "WatchedMovie",
-                type: "nvarchar(450)",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .OldAnnotation("SqlServer:Identity", "1, 1");
-
-            migrationBuilder.AddColumn<string>(
-                name: "Id",
-                table: "UserMovie",
-                type: "nvarchar(450)",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_UserMovie",
-                table: "UserMovie",
-                columns: new[] { "Id", "MovieId" });
+            migrationBuilder.CreateTable(
+                name: "Actors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ActorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActorBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActorPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActorBiography = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActorFilmography = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Actors", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -99,7 +68,23 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRefreshToken",
+                name: "Directors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DirectorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DirectorBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DirectorPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DirectorBiography = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Directors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRefreshTokens",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -108,7 +93,7 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRefreshToken", x => x.UserId);
+                    table.PrimaryKey("PK_UserRefreshTokens", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,6 +202,118 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MovieTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Producer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ScreenWriter = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MovieType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MovieDuration = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MovieReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MovieSummary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MovieRating = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MovieTrailer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsWatched = table.Column<bool>(type: "bit", nullable: false),
+                    DirectorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movies_Directors_DirectorId",
+                        column: x => x.DirectorId,
+                        principalTable: "Directors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MovieActor",
+                columns: table => new
+                {
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    ActorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieActor", x => new { x.MovieId, x.ActorId });
+                    table.ForeignKey(
+                        name: "FK_MovieActor_Actors_ActorId",
+                        column: x => x.ActorId,
+                        principalTable: "Actors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MovieActor_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserMovie",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MovieId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserMovie", x => new { x.Id, x.MovieId });
+                    table.ForeignKey(
+                        name: "FK_UserMovie_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserMovie_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WatchedMovie",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    WatchedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WatchedMovie", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WatchedMovie_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WatchedMovie_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Directors",
+                columns: new[] { "Id", "DirectorBiography", "DirectorBirthDate", "DirectorName", "DirectorPhoto" },
+                values: new object[] { 1, "Jonathan Kolia Favreau, kısaca Jon Favreau, Amerikalı oyuncu ve yönetmendir. En iyi Şef filmi ve Iron Man serisi dahil olmak üzere Marvel Sinematik Evreni'nde canlandırdığı Happy karakteri ile bilinir. Ayrıca yönetmenliğini yaptığı filmler arasında Iron Man ve Iron Man 2 bulunur. Aynı zamanda ünlü komedi dizisi Friends de Monica'nını milyoner erkek arkadaşı Pete Becker'ı canlandırmıştır.", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jon Favreau", "-" });
+
+            migrationBuilder.InsertData(
+                table: "Movies",
+                columns: new[] { "Id", "DirectorId", "IsWatched", "MovieDuration", "MovieRating", "MovieReleaseDate", "MovieSummary", "MovieTitle", "MovieTrailer", "MovieType", "Producer", "ScreenWriter" },
+                values: new object[] { 1, 1, false, 0m, 0m, new DateTime(2008, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Iron Man", null, null, null, null });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -256,34 +353,30 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_UserMovie_AspNetUsers_Id",
-                table: "UserMovie",
-                column: "Id",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieActor_ActorId",
+                table: "MovieActor",
+                column: "ActorId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_WatchedMovie_AspNetUsers_Id",
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_DirectorId",
+                table: "Movies",
+                column: "DirectorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMovie_MovieId",
+                table: "UserMovie",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WatchedMovie_MovieId",
                 table: "WatchedMovie",
-                column: "Id",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "MovieId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_UserMovie_AspNetUsers_Id",
-                table: "UserMovie");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_WatchedMovie_AspNetUsers_Id",
-                table: "WatchedMovie");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -300,90 +393,31 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserRefreshToken");
+                name: "MovieActor");
+
+            migrationBuilder.DropTable(
+                name: "UserMovie");
+
+            migrationBuilder.DropTable(
+                name: "UserRefreshTokens");
+
+            migrationBuilder.DropTable(
+                name: "WatchedMovie");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Actors");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_UserMovie",
-                table: "UserMovie");
+            migrationBuilder.DropTable(
+                name: "Movies");
 
-            migrationBuilder.DropColumn(
-                name: "Id",
-                table: "UserMovie");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "WatchedMovie",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(450)")
-                .Annotation("SqlServer:Identity", "1, 1");
-
-            migrationBuilder.AddColumn<int>(
-                name: "UserId",
-                table: "WatchedMovie",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<int>(
-                name: "UserId",
-                table: "UserMovie",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_UserMovie",
-                table: "UserMovie",
-                columns: new[] { "UserId", "MovieId" });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserMail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserPassword = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "UserMail", "UserName", "UserPassword" },
-                values: new object[] { 1, "yusuf@gmail.com", "Yusuf", 123 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WatchedMovie_UserId",
-                table: "WatchedMovie",
-                column: "UserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_UserMovie_Users_UserId",
-                table: "UserMovie",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_WatchedMovie_Users_UserId",
-                table: "WatchedMovie",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.DropTable(
+                name: "Directors");
         }
     }
 }

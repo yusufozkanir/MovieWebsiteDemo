@@ -19,10 +19,10 @@ namespace MovieWebsiteDemo.Repository.DataAccess.Repositories
 
         public async Task MarkAsWatchedAsync(int movieId)
         {
-            var film = await _context.Movies.FindAsync(movieId);
-            if (film != null)
+            var movie = await _context.Movies.FindAsync(movieId);
+            if (movie != null)
             {
-                film.IsWatched = true;
+                movie.IsWatched = true;
                 //await _context.SaveChangesAsync();
             }
         }

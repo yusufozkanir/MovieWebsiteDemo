@@ -16,6 +16,7 @@ namespace MovieWebsiteDemo.Service.Business.Mapping
             CreateMap<Movie, MovieWithDirectorDto>();
             CreateMap<Director, DirectorWithMoviesDto>();
             CreateMap<MovieCreateDto, Movie>();
+            CreateMap<WatchedMovie, WatchedMovieDto>();
         }
     }
 }

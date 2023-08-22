@@ -46,14 +46,16 @@ namespace MovieWebsiteDemo.Service.Business.Services
             return CustomResponseDto<NoContentDto>.Success(StatusCodes.Status204NoContent);
         }
 
-        public async Task MarkAsWatchedAsync(int movieId)
+        public async Task<CustomResponseDto<NoContentDto>> MarkAsWatchedAsync(int movieId)
         {
-            var film = await _movieRepository.GetByIdAsync(movieId);
-            if (film != null)
+            var movie = await _movieRepository.GetByIdAsync(movieId);
+            if (movie != null)
             {
-                film.IsWatched = true;
+                movie.IsWatched = true;
                 await _unitOfWork.CommitAsync();
+                return CustomResponseDto<NoContentDto>.Success(StatusCodes.Status204NoContent);
             }
+            return CustomResponseDto<NoContentDto>.Fail(StatusCodes.Status404NotFound, "Movie not found", true);
         }
     }
 }

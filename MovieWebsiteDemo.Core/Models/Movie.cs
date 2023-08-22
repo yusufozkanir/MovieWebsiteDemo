@@ -12,13 +12,15 @@
         public decimal MovieRating { get; set; }
         public string MovieTrailer { get; set; }
         public bool IsWatched { get; set; }
+        public string WatchedByUserId { get; set; }
         public int DirectorId { get; set; }
         public Director Director { get; set; }
 
         public ICollection<MovieActor> MovieActors { get; set; }
         public ICollection<UserMovie> Users { get; set; }
 
-        public List<WatchedMovie> WatchedMovies { get; set; }
+        //public List<WatchedMovie> WatchedMovies { get; set; }
+        public ICollection<WatchedMovie> WatchedMovies { get; set; }
 
     }
 }

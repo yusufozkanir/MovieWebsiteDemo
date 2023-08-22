@@ -18,6 +18,7 @@ namespace MovieWebsiteDemo.Core.DTOs
         public decimal MovieRating { get; set; }
         public string MovieTrailer { get; set; }
         public bool IsWatched { get; set; }
+        public string WatchedByUserId { get; set; }
         public int DirectorId { get; set; }
     }
 }

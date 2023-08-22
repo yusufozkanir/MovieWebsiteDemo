@@ -6,6 +6,8 @@ namespace MovieWebsiteDemo.Core.Models
     {
         public ICollection<UserMovie> Movies { get; set; }
 
-        public List<WatchedMovie> WatchedMovies { get; set; }
+        public ICollection<WatchedMovie> WatchedMovies { get; set; }
+
+        //public List<WatchedMovie> WatchedMovies { get; set; }
     }
 }
