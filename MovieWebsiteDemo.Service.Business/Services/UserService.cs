@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using MovieWebsiteDemo.Core.Repositories;
 using MovieWebsiteDemo.Repository.DataAccess.Repositories;
 using MovieWebsiteDemo.Core.IUnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieWebsiteDemo.Service.Business.Services
 {
@@ -27,7 +28,6 @@ namespace MovieWebsiteDemo.Service.Business.Services
         private readonly IGenericRepository<WatchedMovie> _watchedMovieRepository;
         private readonly IMovieRepository _movieRepository;
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly IMapper _mapper;
 
         public UserService(UserManager<UserApp> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IMovieRepository movieRepository, IUnitOfWork unitOfWork, IGenericRepository<WatchedMovie> watchedMovieRepository)
@@ -105,20 +105,8 @@ namespace MovieWebsiteDemo.Service.Business.Services
             return CustomResponseDto<NoContentDto>.Fail(StatusCodes.Status404NotFound, "Movie not found", true);
         }
 
-
-
         public async Task<CustomResponseDto<IEnumerable<WatchedMovieDto>>> GetWatchedMoviesForUserAsync(string userId)
         {
-            //var watchedMovies = await _watchedMovieRepository.Where(x => x.Id == userId).ToListAsync();
-
-            //var watchedMovieDtos = watchedMovies.Select(wm => new WatchedMovieDto
-            //{
-            //    Id = wm.UserId,
-            //    MovieId = wm.MovieId,
-            //    WatchedDate = wm.WatchedDate,
-            //}).ToList();
-            //return CustomResponseDto<IEnumerable<WatchedMovieDto>>.Success(200, watchedMovies);
-
             var watchedMovies = await _watchedMovieRepository.GetAll().ToListAsync();
             var userWatchedMovies = watchedMovies
                 .Where(wm => wm.Id == userId)
@@ -128,7 +116,12 @@ namespace MovieWebsiteDemo.Service.Business.Services
                     WatchedDate = wm.WatchedDate
                 }).ToList();
 
-            return CustomResponseDto<IEnumerable<WatchedMovieDto>>.Success(200, userWatchedMovies);
+            if (userWatchedMovies.Any())
+            {
+                return CustomResponseDto<IEnumerable<WatchedMovieDto>>.Success(200, userWatchedMovies);
+            }
+
+            return CustomResponseDto<IEnumerable<WatchedMovieDto>>.Fail(404, "User has no watched movies.", true);
 
         }
     }

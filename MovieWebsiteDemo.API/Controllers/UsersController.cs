@@ -35,19 +35,21 @@ namespace MovieWebsiteDemo.API.Controllers
             return CreateActionResult(await _userService.GetUserByNameAsync(HttpContext.User.Identity.Name));
         }
 
+        [Authorize]
         [HttpPost("CreateUserRoles/{userName}")]
         public async Task<IActionResult> CreateUserRoles(string userName)
         {
             return CreateActionResult(await _userService.CreateUserRoles(userName));
         }
 
-
+        [Authorize]
         [HttpPost("{userId}/mark-watched/{movieId}")]
         public async Task<IActionResult> MarkAsWatched(int movieId, string userId)
         {
             return CreateActionResult(await _userService.MarkAsWatchedAsync(movieId, userId));
         }
 
+        [Authorize]
         [HttpGet("{userId}/watched")]
         public async Task<IActionResult> GetWatchedMoviesForUser(string userId)
         {

@@ -40,7 +40,7 @@ namespace MovieWebsiteDemo.Service.Business.Services
 
             var token = _tokenService.CreateToken(user);
             var userRefreshToken = await _userRefreshTokenService.Where(x => x.UserId == user.Id).SingleOrDefaultAsync();
-            if (userRefreshToken != null)
+            if (userRefreshToken == null)
             {
                 await _userRefreshTokenService.AddAsync(new UserRefreshToken { UserId = user.Id, Code = token.RefreshToken, Expiration = token.RefreshTokenExpiration });
             }

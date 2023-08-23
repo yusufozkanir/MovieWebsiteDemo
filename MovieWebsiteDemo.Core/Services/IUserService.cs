@@ -11,5 +11,6 @@ namespace MovieWebsiteDemo.Core.Services
         Task<CustomResponseDto<NoContentDto>> MarkAsWatchedAsync(int movieId, string userId);
 
         Task<CustomResponseDto<IEnumerable<WatchedMovieDto>>> GetWatchedMoviesForUserAsync(string userId);
+        //Task<CustomResponseDto<IEnumerable<UserMovieDto>>> GetMovieByUserId(string userId);
     }
 }
